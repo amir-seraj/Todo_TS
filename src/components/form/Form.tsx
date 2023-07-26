@@ -10,7 +10,7 @@ const schema = z.object({
   todoText: z
     .string()
     .min(10, { message: "Task characters must be at least 10 characters" }),
-  date: z.date(),
+  state: z.string().min(1, { message: "" }),
 });
 type FormData = z.infer<typeof schema>;
 
@@ -18,9 +18,8 @@ function Form({ onSubmit }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
-
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -38,13 +37,8 @@ function Form({ onSubmit }: Props) {
           <p className="text-danger">{errors.todoText.message}</p>
         )}
         <button className="btn btn-primary" type="submit">
-          Submit
+          ADD
         </button>
-        <select name="todos" className="filter-todo">
-          <option value="all">All</option>
-          <option value="completed">Completed</option>
-          <option value="uncompleted">Uncompleted</option>
-        </select>
       </form>
     </>
   );

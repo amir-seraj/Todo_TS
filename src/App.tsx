@@ -2,24 +2,33 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Form from "./components/form/Form";
 import { useState } from "react";
+import TasksTable from "./components/table/tasksTable";
 
 function App() {
-  const [task, setTask] = useState([{ id: 0, text: "", dateNow: Date.now() }]);
+  const [tasks, setTasks] = useState([
+    { id: 0, text: "", state: "" },
+    { id: 1, text: "hi", state: "" },
+    { id: 2, text: "bye", state: "" },
+  ]);
   return (
     <>
       <div className="d-flex flex-column align-items-center justify-content-center ">
         <h3 className="text-danger">TODO LIST PROJECT</h3>
         <Form
           onSubmit={(data) => {
-            setTask([
-              ...task,
-              { id: task.length, text: data.todoText, dateNow: Date.now() },
+            setTasks([
+              ...tasks,
+              {
+                id: tasks.length,
+                text: data.todoText,
+                state: "Uncompleted",
+              },
             ]);
-            console.log(data);
           }}
         />
+        <h5>{JSON.stringify(tasks)}</h5>
+        <TasksTable tasks={tasks} />
       </div>
-      <div>{JSON.stringify(task)}</div>
     </>
   );
 }
